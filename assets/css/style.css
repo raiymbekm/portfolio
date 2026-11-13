@@ -65,7 +65,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .about-copy { width: 954px; max-width: 100%; }
 
 /* CV button: identical to the Connect button, with a download icon whose line weight matches the lettering */
-.cv-btn { position: relative; isolation: isolate; display: inline-flex; align-items: center; justify-content: center; gap: .28em; height: 86px; padding: 10px 32px; border-radius: 50px; color: var(--black); font-weight: 500; font-size: 45px; line-height: 1em; letter-spacing: -0.03em; white-space: nowrap; user-select: none; }
+.cv-btn { position: relative; isolation: isolate; display: inline-flex; align-items: center; justify-content: center; gap: .28em; height: 74px; padding: 10px 28px; border-radius: 50px; color: var(--black); font-weight: 500; font-size: 38px; line-height: 1em; letter-spacing: -0.03em; white-space: nowrap; user-select: none; }
 
 .cv-btn svg { flex: none; width: .82em; height: .82em; fill: none; stroke: currentColor; stroke-width: 3.1; stroke-linecap: round; stroke-linejoin: round; }
 
@@ -206,7 +206,7 @@ html.is-alt .cool-word { color: var(--orange); }
 .footer { width: 100%; padding: 148px 48px 56px; display: flex; flex-direction: column; gap: 10px; overflow: visible; }
 .footer-top { display: grid; grid-template-columns: repeat(4, minmax(50px, 1fr)); padding-bottom: 100px; }
 .footer-top h3 { grid-column: span 3; }
-.connect { position: relative; isolation: isolate; place-self: end; height: 86px; padding: 10px 32px; display: flex; align-items: center; justify-content: center; border-radius: 50px; color: var(--black); font-weight: 500; font-size: 45px; line-height: 1em; letter-spacing: -0.03em; text-transform: capitalize; white-space: pre; }
+.connect { position: relative; isolation: isolate; place-self: end; height: 74px; padding: 10px 28px; display: flex; align-items: center; justify-content: center; border-radius: 50px; color: var(--black); font-weight: 500; font-size: 38px; line-height: 1em; letter-spacing: -0.03em; text-transform: capitalize; white-space: pre; }
 /* white fill that dissolves to reveal the moving gradient */
 @property --veil { syntax: "<color>"; inherits: false; initial-value: #fff; }
 .connect::before, .cv-btn::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; --veil: #fff; background-image: linear-gradient(var(--veil), var(--veil)), linear-gradient(120deg, #8f6bff 0%, #a855f7 18%, #ff7a18 40%, #ff4f9a 58%, #8f6bff 78%, #a855f7 100%); background-size: 100% 100%, 320% 320%; animation: gradient-drift-2 4.5s ease-in-out infinite alternate; animation-play-state: paused; transition: --veil .6s ease; }
@@ -226,7 +226,7 @@ html.is-alt .cool-word { color: var(--orange); }
 .backup.is-shown { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition: opacity .35s ease, transform .4s cubic-bezier(.3, 1.3, .5, 1), background-color .3s ease, visibility 0s; }
 /* purple-to-orange outline */
 .backup::after { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: var(--stroke); background: linear-gradient(90deg, #a854f7 0%, #ff7a18 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); pointer-events: none; }
-.backup svg { flex: none; width: .74em; height: .74em; fill: none; stroke: currentColor; stroke-width: 2.3; stroke-linecap: round; stroke-linejoin: round; transition: transform .3s cubic-bezier(.3, 1.4, .5, 1); }
+.backup svg { flex: none; width: .74em; height: .74em; fill: none; stroke: currentColor; stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; transition: transform .3s cubic-bezier(.3, 1.4, .5, 1); }
 .backup-label { transition: opacity .16s ease; }
 .backup.is-swapping .backup-label { opacity: 0; }
 .backup:hover, .backup:focus-visible { background: #ffffff33; outline: none; }
@@ -274,7 +274,7 @@ html.js [data-appear] { opacity: 0; transform: translateY(30px); will-change: tr
   .about-text { width: 100%; gap: 28px; }
   .about-title { white-space: pre-wrap; width: 100%; }
   .about-copy { width: 100%; }
-  .cv-btn { height: 56px; padding: 10px 24px; font-weight: 400; font-size: 28px; }
+  .cv-btn { height: 50px; padding: 10px 22px; font-weight: 400; font-size: 25px; }
   .backup { top: 14px; height: 44px; padding: 0 18px 0 14px; gap: 8px; border-radius: 22px; font-size: 18px; }
   .cv-btn svg { stroke-width: 2.5; }
 
@@ -313,7 +313,7 @@ html.js [data-appear] { opacity: 0; transform: translateY(30px); will-change: tr
   .footer-wrapper { padding: 0; }
   .footer { padding: 64px 24px 32px; gap: 48px; }
   .footer-top { display: flex; flex-direction: column; align-items: flex-start; gap: 28px; padding: 0; }
-  .connect { place-self: auto; height: 56px; padding: 10px 24px; font-weight: 400; font-size: 28px; text-transform: none; }
+  .connect { place-self: auto; height: 50px; padding: 10px 22px; font-weight: 400; font-size: 25px; text-transform: none; }
   .footer-bottom { flex-direction: column; align-items: flex-start; gap: 28px; white-space: normal; }
   .socials { flex-wrap: wrap; gap: 28px 16px; width: 100%; }
 }
