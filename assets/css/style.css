@@ -128,6 +128,14 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .is-lit > .rays, .cv-btn:hover > .rays, .connect:hover > .rays { animation-play-state: running; }
 @keyframes halo-twinkle { 0%, 100% { transform: scale(1); } 11% { transform: scale(.86); } 26% { transform: scale(1.12); } 40% { transform: scale(.94); } 57% { transform: scale(1.18); } 72% { transform: scale(.9); } 87% { transform: scale(1.08); } }
 
+/* The glow comes from the object's own outline, not from a round halo behind it.
+   Stacked drop-shadows are cast by the shape's actual pixels (the X's lobes, the squiggles'
+   strokes), so the light hugs the form: a tight bright core, then a purple and an orange spread. */
+.rays { background: none; }
+.sticker > .rays { display: none; }
+.sticker--blob, .sticker--gradient, .sticker--motion,
+.sticker--blob.is-lit, .sticker--gradient.is-lit, .sticker--motion.is-lit { filter: drop-shadow(0 0 calc(var(--g-on) * var(--g-tw) * 3px) #e9d5ffe6) drop-shadow(0 0 calc(var(--g-on) * var(--g-tw) * 9px) #a855f7cc) drop-shadow(0 0 calc(var(--g-on) * var(--g-tw) * 20px) #ff7a1899); }
+
 /* "cool": solid purple or orange, swapping on every click anywhere on the page */
 .cool-word { color: var(--grad-purple); transition: color .3s ease; }
 html.is-alt .cool-word { color: var(--orange); }
