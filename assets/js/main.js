@@ -214,6 +214,54 @@
   })();
 
   /* ------------------------------------------------------------------
+     Back-up pill: appears once the page is scrolled, names the section just
+     above the one on screen, and jumps back up to it.
+     ------------------------------------------------------------------ */
+  (function backup() {
+    var btn = document.querySelector('.backup');
+    if (!btn) return;
+    var label = btn.querySelector('.backup-label');
+    function q(s) { return document.querySelector(s); }
+    // zone = where a section starts for "what am I looking at"; anchor = what to scroll back to
+    var sections = [
+      { name: 'Top', zone: q('#about'), anchor: null },
+      { name: 'Motion graphics', zone: q('.motion'), anchor: q('.motion h2') },
+      { name: 'NielsenIQ', zone: q('#works'), anchor: q('#nielseniq .project-title') },
+      { name: 'Dara Podcast', zone: q('#darapodcast'), anchor: q('#darapodcast .project-title') },
+      { name: 'Fetch Quest', zone: q('#fetchquest'), anchor: q('#fetchquest .project-title') },
+      { name: 'Contact', zone: q('.footer-wrapper'), anchor: q('.footer') }
+    ].filter(function (s) { return s.zone; });
+    var target = 0, shownName = '', ticking = false, swapTimer = 0;
+
+    function update() {
+      ticking = false;
+      var line = window.innerHeight * 0.45, current = 0;
+      for (var i = 0; i < sections.length; i++) if (sections[i].zone.getBoundingClientRect().top <= line) current = i;
+      target = Math.max(0, current - 1);
+      var show = window.scrollY > 60;
+      btn.classList.toggle('is-shown', show);
+      btn.setAttribute('aria-hidden', show ? 'false' : 'true');
+      btn.tabIndex = show ? 0 : -1;
+      var name = sections[target].name;
+      if (name === shownName) return;
+      btn.setAttribute('aria-label', 'Back up to ' + name);
+      if (!shownName || !show) { label.textContent = name; shownName = name; return; }
+      shownName = name;
+      btn.classList.add('is-swapping');
+      clearTimeout(swapTimer);
+      swapTimer = setTimeout(function () { label.textContent = name; btn.classList.remove('is-swapping'); }, 160);
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    btn.addEventListener('click', function () {
+      var a = sections[target].anchor, top = 0;
+      if (a) top = Math.max(0, a.getBoundingClientRect().top + window.scrollY - (desktop.matches ? 130 : 78));
+      window.scrollTo({ top: top, behavior: reduceMotion ? 'auto' : 'smooth' });
+    });
+    update();
+  })();
+
+  /* ------------------------------------------------------------------
      Collapsible project details (small screens)
      ------------------------------------------------------------------ */
   document.querySelectorAll('.project-toggle').forEach(function (btn) {
