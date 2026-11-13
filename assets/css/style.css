@@ -79,6 +79,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .sticker img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
 .sticker--blob { width: .71em; height: .71em; vertical-align: -0.03em; }
 .sticker--gradient { width: 3.17em; height: 1.39em; margin: -0.4em 0 -0.4em .12em; vertical-align: middle; }
+.sticker--motion { width: 2.9em; height: 1.26em; margin: -0.4em 0 -0.4em .14em; vertical-align: middle; }
 
 /* ---------- Gradient glow (the X shape, the word "cool", the CV button) ----------
    Resting state is plain. When active (hovered / focused, or centred on screen on touch
@@ -102,15 +103,34 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 @property --ray-a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
 @property --ray-b { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
 .rays { position: absolute; left: -30px; right: -30px; top: -30px; bottom: -30px; z-index: -2; pointer-events: none; opacity: 0; transition: opacity .7s ease; background: radial-gradient(ellipse closest-side at center, #a855f7b3 0%, #a855f780 45%, #ff7a1859 72%, #0000 100%); -webkit-mask: radial-gradient(ellipse closest-side at center, #000 0%, #000 22%, transparent 100%); mask: radial-gradient(ellipse closest-side at center, #000 0%, #000 22%, transparent 100%); }
-.rays::before, .rays::after { content: ""; position: absolute; inset: 0; filter: blur(3px); mix-blend-mode: screen; animation-play-state: paused; }
+.rays::before, .rays::after { content: ""; position: absolute; inset: 0; opacity: .15; filter: blur(3px); mix-blend-mode: screen; animation-play-state: paused; }
 .rays::before { background: conic-gradient(from var(--ray-a) at 50% 50%, #0000 0deg, #ff7a18e6 5deg, #0000 13deg, #0000 38deg, #a855f7d9 47deg, #0000 52deg, #0000 81deg, #ffb066cc 88deg, #0000 104deg, #0000 139deg, #a855f7e6 150deg, #0000 156deg, #0000 187deg, #ff7a18bf 199deg, #0000 204deg, #0000 236deg, #c084fccc 243deg, #0000 262deg, #0000 291deg, #ff7a18e6 300deg, #0000 306deg, #0000 333deg, #a855f7bf 344deg, #0000 352deg, #0000 360deg); animation: ray-turn 26s linear infinite, ray-cloud-a 5.3s ease-in-out infinite; }
 .rays::after { background: conic-gradient(from var(--ray-b) at 50% 50%, #0000 0deg, #0000 17deg, #fff3 22deg, #0000 26deg, #0000 63deg, #ff9d4dcc 71deg, #0000 76deg, #0000 118deg, #b678ffb3 124deg, #0000 133deg, #0000 171deg, #fff4 176deg, #0000 180deg, #0000 218deg, #ff7a18b3 229deg, #0000 233deg, #0000 274deg, #a855f7cc 281deg, #0000 287deg, #0000 322deg, #ffd0a366 327deg, #0000 331deg, #0000 360deg); animation: ray-turn-back 41s linear infinite, ray-cloud-b 3.7s ease-in-out infinite; }
 @keyframes ray-turn { to { --ray-a: 360deg; } }
 @keyframes ray-turn-back { to { --ray-b: -360deg; } }
-@keyframes ray-cloud-a { 0%, 100% { opacity: .95; } 22% { opacity: .45; } 47% { opacity: 1; } 71% { opacity: .6; } }
-@keyframes ray-cloud-b { 0%, 100% { opacity: .35; } 31% { opacity: 1; } 58% { opacity: .5; } 83% { opacity: .9; } }
+@keyframes ray-cloud-a { 0%, 100% { opacity: .14; } 22% { opacity: .07; } 47% { opacity: .15; } 71% { opacity: .09; } }
+@keyframes ray-cloud-b { 0%, 100% { opacity: .05; } 31% { opacity: .15; } 58% { opacity: .08; } 83% { opacity: .13; } }
 .is-lit > .rays, .cv-btn:hover > .rays, .cv-btn:focus-visible > .rays, .connect:hover > .rays, .connect:focus-visible > .rays { opacity: 1; }
 .is-lit > .rays::before, .is-lit > .rays::after, .cv-btn:hover > .rays::before, .cv-btn:hover > .rays::after, .connect:hover > .rays::before, .connect:hover > .rays::after { animation-play-state: running; }
+
+/* ---------- Twinkling glow ----------
+   --g-on fades the glow in and out (0 -> 1); --g-tw keeps changing its size while it is on,
+   so the halo swells and shrinks unevenly instead of sitting still. */
+@property --g-on { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --g-tw { syntax: "<number>"; inherits: false; initial-value: 1; }
+.cv-btn, .connect, .sticker--blob, .sticker--gradient, .sticker--motion { --g-on: 0; filter: drop-shadow(0 0 calc(var(--g-on) * var(--g-tw) * 12px) #a855f7b3) drop-shadow(0 0 calc(var(--g-on) * var(--g-tw) * 26px) #ff7a1880); animation: glow-twinkle 6.9s ease-in-out infinite; animation-play-state: paused; }
+.cv-btn, .sticker--blob, .sticker--gradient, .sticker--motion { transition: --g-on .6s ease; }
+.connect { transition: color .6s ease, --g-on .6s ease; }
+.cv-btn:hover, .cv-btn:focus-visible, .connect:hover, .connect:focus-visible, .sticker--blob.is-lit, .sticker--gradient.is-lit, .sticker--motion.is-lit { --g-on: 1; filter: drop-shadow(0 0 calc(var(--g-on) * var(--g-tw) * 12px) #a855f7b3) drop-shadow(0 0 calc(var(--g-on) * var(--g-tw) * 26px) #ff7a1880); animation-play-state: running; }
+@keyframes glow-twinkle { 0%, 100% { --g-tw: 1; } 11% { --g-tw: .55; } 26% { --g-tw: 1.4; } 40% { --g-tw: .8; } 57% { --g-tw: 1.6; } 72% { --g-tw: .65; } 87% { --g-tw: 1.25; } }
+/* the halo behind the element breathes with it */
+.rays { animation: halo-twinkle 6.9s ease-in-out infinite; animation-play-state: paused; }
+.is-lit > .rays, .cv-btn:hover > .rays, .connect:hover > .rays { animation-play-state: running; }
+@keyframes halo-twinkle { 0%, 100% { transform: scale(1); } 11% { transform: scale(.86); } 26% { transform: scale(1.12); } 40% { transform: scale(.94); } 57% { transform: scale(1.18); } 72% { transform: scale(.9); } 87% { transform: scale(1.08); } }
+
+/* "cool": solid purple or orange, swapping on every click anywhere on the page */
+.cool-word { color: var(--grad-purple); transition: color .3s ease; }
+html.is-alt .cool-word { color: var(--orange); }
 
 /* ---------- Motion graphics ---------- */
 .motion { width: 100%; padding: 150px 40px 0; display: flex; flex-direction: column; align-items: center; gap: 40px; overflow: clip; }
@@ -182,14 +202,13 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .footer { width: 100%; padding: 148px 48px 56px; display: flex; flex-direction: column; gap: 10px; overflow: visible; }
 .footer-top { display: grid; grid-template-columns: repeat(4, minmax(50px, 1fr)); padding-bottom: 100px; }
 .footer-top h3 { grid-column: span 3; }
-.connect { position: relative; isolation: isolate; place-self: end; height: 86px; padding: 10px 32px; display: flex; align-items: center; justify-content: center; border-radius: 50px; color: var(--black); font-weight: 500; font-size: 45px; line-height: 1em; letter-spacing: -0.03em; text-transform: capitalize; white-space: pre; transition: color .6s ease; }
+.connect { position: relative; isolation: isolate; place-self: end; height: 86px; padding: 10px 32px; display: flex; align-items: center; justify-content: center; border-radius: 50px; color: var(--black); font-weight: 500; font-size: 45px; line-height: 1em; letter-spacing: -0.03em; text-transform: capitalize; white-space: pre; }
 /* white fill that dissolves to reveal the moving gradient */
 @property --veil { syntax: "<color>"; inherits: false; initial-value: #fff; }
 .connect::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; --veil: #fff; background-image: linear-gradient(var(--veil), var(--veil)), linear-gradient(120deg, #8f6bff 0%, #a855f7 18%, #ff7a18 40%, #ff4f9a 58%, #8f6bff 78%, #a855f7 100%); background-size: 100% 100%, 320% 320%; animation: gradient-drift-2 4.5s ease-in-out infinite alternate; animation-play-state: paused; transition: --veil .6s ease; }
 @keyframes gradient-drift-2 { 0% { background-position: 0 0, 0% 20%; } 50% { background-position: 0 0, 70% 100%; } 100% { background-position: 0 0, 100% 0%; } }
 .connect::after { content: ""; position: absolute; inset: 0; border-radius: inherit; border: var(--stroke) solid #fff; pointer-events: none; }
-.connect { filter: drop-shadow(0 0 0 #a855f700) drop-shadow(0 0 0 #ff7a1800); transition: color .6s ease, filter .6s ease; }
-.connect:hover, .connect:focus-visible { color: #fff; filter: drop-shadow(0 0 12px #a855f7b3) drop-shadow(0 0 26px #ff7a1880); outline: none; }
+.connect:hover, .connect:focus-visible { color: #fff; outline: none; }
 .connect:hover::before, .connect:focus-visible::before { --veil: #fff0; animation-play-state: running; }
 .footer-bottom { display: flex; align-items: center; justify-content: space-between; white-space: pre; }
 .socials { display: flex; gap: 56px; }
@@ -215,7 +234,7 @@ html.js [data-appear] { opacity: 0; transform: translateY(30px); will-change: tr
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   html.js [data-appear] { opacity: 1; transform: none; }
-  .glow-fill, .glow-word, .cv-btn::before, .connect::before, .rays::before, .rays::after { animation: none; }
+  .glow-fill, .cv-btn::before, .connect::before, .rays::before, .rays::after, .cv-btn, .connect, .sticker--blob, .sticker--gradient, .sticker--motion, .rays { animation: none; }
 }
 
 /* ==========================================================================
@@ -246,8 +265,8 @@ html.js [data-appear] { opacity: 0; transform: translateY(30px); will-change: tr
   .works { padding: 48px 24px; }
   .works .section-intro { padding-bottom: 56px; }
   /* no room beside the heading on small screens: perch the squiggle on top of the word "projects" */
-  .works h2 { position: relative; width: fit-content; max-width: 100%; }
-  .sticker--gradient { position: absolute; right: -6px; top: -1.08em; margin: 0; }
+  .works h2, .motion h2 { position: relative; width: fit-content; max-width: 100%; }
+  .sticker--gradient, .sticker--motion { position: absolute; right: -6px; top: -1.08em; margin: 0; }
 
   .project { padding: 64px 0; }
 

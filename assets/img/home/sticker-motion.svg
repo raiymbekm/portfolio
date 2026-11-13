@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 200" fill="none">
+  <defs>
+    <linearGradient id="g" gradientUnits="userSpaceOnUse" x1="10" y1="150" x2="450" y2="60">
+      <stop offset="0" stop-color="#906bff"/>
+      <stop offset=".34" stop-color="#b37ad6"/>
+      <stop offset=".62" stop-color="#e0786a"/>
+      <stop offset=".8" stop-color="#f07000"/>
+      <stop offset="1" stop-color="#cf7fa6"/>
+    </linearGradient>
+  </defs>
+  <!-- two bounces, then a loop that flicks away: a motion path -->
+  <path d="M22 158 C38 36 112 36 128 158 C142 74 204 74 218 158 C228 104 268 64 312 70 C366 78 360 152 304 152 C254 152 250 96 300 68 C340 46 398 48 438 82"
+        stroke="url(#g)" stroke-width="21" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

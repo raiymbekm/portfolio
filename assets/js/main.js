@@ -50,6 +50,11 @@
     document.querySelectorAll('.video').forEach(function (v) { v.addEventListener('mouseleave', hide); });
   })();
 
+  // every click or tap anywhere swaps the accent colour (the word "cool" follows it)
+  window.addEventListener('pointerdown', function () {
+    document.documentElement.classList.toggle('is-alt');
+  }, { passive: true });
+
   /* ------------------------------------------------------------------
      Spring helpers (same physics as the original: stiffness / damping / mass)
      ------------------------------------------------------------------ */
