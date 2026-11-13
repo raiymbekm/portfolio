@@ -180,6 +180,19 @@
      With a mouse "in focus" = hovered; on touch screens = centred on screen.
      ------------------------------------------------------------------ */
   (function glow() {
+    // light rays sit behind each glowing element
+    document.querySelectorAll('[data-glow], .cv-btn, .connect').forEach(function (el) {
+      var r = document.createElement('span');
+      r.className = 'rays';
+      r.setAttribute('aria-hidden', 'true');
+      el.insertBefore(r, el.firstChild);
+    });
+    // footer links light up solid orange or purple, picked at random each time
+    document.querySelectorAll('.socials a').forEach(function (a) {
+      function pick() { a.style.setProperty('--link-hover', Math.random() < 0.5 ? '#ff7a18' : '#a855f7'); }
+      a.addEventListener('pointerenter', pick);
+      a.addEventListener('focus', pick);
+    });
     var els = [].slice.call(document.querySelectorAll('[data-glow]'));
     if (!els.length) return;
     if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
@@ -317,12 +330,8 @@
       function release() {
         if (!down) return;
         down = false;
-        if (moved) {
-          track.classList.remove('is-dragging');
-          // settle on the nearest image
-          var i = current();
-          track.scrollTo({ left: offsetOf(i), behavior: reduceMotion ? 'auto' : 'smooth' });
-        }
+        // no snapping: the strip stays exactly where the drag ended
+        if (moved) track.classList.remove('is-dragging');
       }
       window.addEventListener('pointerup', release);
       window.addEventListener('pointercancel', release);
